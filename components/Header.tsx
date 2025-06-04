@@ -10,7 +10,7 @@ const Header = () => {
   const handleSearch = () => {};
 
   return (
-    <header className="bg-blue-600 text-white p-4">
+    <header className="bg-blue-800 text-white p-4">
       <div className="container mx-auto flex items-center justify-between">
         <Link href="/" className="text-2xl font-bold">
           Logo
@@ -33,7 +33,7 @@ const Header = () => {
                 variant: "ghost",
                 size: "icon",
               }),
-              "relative w-full cursor-pointer text-white hover:bg-blue-700 bg-blue-900"
+              "relative w-full cursor-pointer text-white hover:bg-blue-700 bg-black/50"
             )}
             href={"/cart"}
           >
