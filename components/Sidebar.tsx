@@ -1,13 +1,13 @@
 "use client";
 import { useRanger, Ranger } from "@tanstack/react-ranger";
 import { Label } from "./ui/label";
-
-import { useProducts } from "@/hooks/useProducts";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { useRef, useState } from "react";
+import { useProductsContext } from "@/context/ProductContext";
 
 const Sidebar = () => {
-  const { setCategory, setMaxPrice, setMinPrice, filters } = useProducts();
+  const { setCategory, setMaxPrice, setMinPrice, filters } =
+    useProductsContext();
   const rangerRef = useRef<HTMLDivElement>(null);
   const [values, setValues] = useState<ReadonlyArray<number>>([0, 500]);
 
@@ -24,6 +24,7 @@ const Sidebar = () => {
       setMaxPrice(String(instance.sortedValues[1]));
     },
   });
+
   return (
     <div className="bg-blue-900/90 text-white shadow-2xl rounded-lg p-6 w-56">
       <h2 className="text-2xl font-semibold mb-4">Filters</h2>

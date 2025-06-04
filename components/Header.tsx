@@ -6,11 +6,11 @@ import { Search, ShoppingCart, User } from "lucide-react";
 import { cn } from "./../lib/utils";
 import { Input } from "./ui/input";
 import { useCart } from "@/hooks/useCart";
-import { useProducts } from "@/hooks/useProducts";
+import { useProductsContext } from "@/context/ProductContext";
 
 const Header = () => {
   const { totalItems } = useCart();
-  const { setSearch, filters } = useProducts();
+  const { setSearch, filters } = useProductsContext();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

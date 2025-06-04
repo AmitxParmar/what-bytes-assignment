@@ -2,11 +2,12 @@
 import ProductCard from "@/components/ProductCard";
 import Sidebar from "@/components/Sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useProductsContext } from "@/context/ProductContext";
 import { useProducts } from "@/hooks/useProducts";
 
 export default function Home() {
-  const { products, isLoading, error } = useProducts();
-  console.log("products in home page", products);
+  const { products, isLoading, error } = useProductsContext();
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col lg:flex-row gap-8">
