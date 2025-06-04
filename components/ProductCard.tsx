@@ -1,25 +1,30 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useCart } from "@/hooks/useCart";
+import { Button } from "./ui/button";
 
 type Props = {
+  id: number;
   name: string;
   price: number;
   image: string;
   description: string;
   category: string;
   rating?: number;
-  onAddToCart?: () => void;
 };
 
 const ProductCard = ({
+  id,
   name,
   price,
   image,
   description,
   category,
   rating = 4.5,
-  onAddToCart,
 }: Props) => {
+  const { addToCart } = useCart();
+
   return (
     <div className="group relative bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.15] hover:z-50">
       <div className="relative h-48 w-full">
@@ -58,12 +63,14 @@ const ProductCard = ({
           <p className="text-gray-500 text-sm mb-3 hidden group-hover:block">
             <span className="font-bold">Category:</span> {category}
           </p>
-          <button
-            onClick={onAddToCart}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-300"
+          <Button
+            onClick={() =>
+              addToCart({ id, name, price, image, description, category })
+            }
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors cursor-pointer duration-300"
           >
             Add to Cart
-          </button>
+          </Button>
         </div>
       </div>
     </div>

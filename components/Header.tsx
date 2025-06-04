@@ -2,11 +2,13 @@
 import React from "react";
 import { Button, buttonVariants } from "./ui/button";
 import Link from "next/link";
-import { Badge, Search, ShoppingCart, User } from "lucide-react";
+import { Search, ShoppingCart, User } from "lucide-react";
 import { cn } from "./../lib/utils";
 import { Input } from "./ui/input";
+import { useCart } from "@/hooks/useCart";
 
 const Header = () => {
+  const { totalItems } = useCart();
   const handleSearch = () => {};
 
   return (
@@ -39,7 +41,7 @@ const Header = () => {
           >
             <ShoppingCart className="w-5 h-5" />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              1
+              {totalItems}
             </span>
             Cart
           </Link>

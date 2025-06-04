@@ -1,3 +1,4 @@
+"use client";
 import ProductCard from "@/components/ProductCard";
 import Sidebar from "@/components/Sidebar";
 import { products } from "@/lib/products";
