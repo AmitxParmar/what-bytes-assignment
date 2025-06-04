@@ -9,21 +9,23 @@ import { Badge } from "@/components/ui/badge";
 import { products } from "@/lib/products";
 import { useCartContext } from "@/context/CartContext";
 
+type Params = Promise<{ id: string }>;
+
 interface ProductPageProps {
-  params: {
-    id: string;
-  };
+  params: Params;
   rating: number;
 }
 
-export default function ProductPage({
+export default async function ProductPage({
   params,
   rating = 4.5,
 }: ProductPageProps) {
+  const { id } = await params;
+
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCartContext();
 
-  const product = products.find((p) => String(p.id) === params.id);
+  const product = products.find((p) => String(p.id) === id);
 
   if (!product) {
     notFound();
