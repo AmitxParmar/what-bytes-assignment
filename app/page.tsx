@@ -8,7 +8,7 @@ export default function Home() {
           <Sidebar />
         </aside>
 
-        <main className="lg:w-3/4">Main GRID</main>
+        <main className="lg:w-3/4 border">Main GRID</main>
       </div>
     </div>
   );
