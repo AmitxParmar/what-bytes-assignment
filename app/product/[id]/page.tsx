@@ -5,14 +5,8 @@ import ClientProductPage from "@/components/ClientProductPage";
 
 type Params = Promise<{ id: string }>;
 
-interface ProductPageProps {
-  params: Params;
-  rating: number;
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: { params: Params }) {
   const { id } = await params;
-
   const product = products.find((p) => String(p.id) === id);
 
   if (!product) {
