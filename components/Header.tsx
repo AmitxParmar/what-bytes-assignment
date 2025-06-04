@@ -1,15 +1,24 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import Link from "next/link";
 import { Search, ShoppingCart, User } from "lucide-react";
 import { cn } from "./../lib/utils";
 import { Input } from "./ui/input";
 import { useCart } from "@/hooks/useCart";
+import { useProducts } from "@/hooks/useProducts";
 
 const Header = () => {
   const { totalItems } = useCart();
-  const handleSearch = () => {};
+  const { setSearch, filters } = useProducts();
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const searchValue = formData.get("search") as string;
+    setSearch(searchValue);
+  };
 
   return (
     <header className="bg-blue-800 text-white p-4">
@@ -22,8 +31,11 @@ const Header = () => {
             <Search className="absolute text-white left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" />
             <Input
               type="text"
-              placeholder="Search for products..."
+              name="search"
+              placeholder={"Search for products..."}
               className="pl-10 text-black"
+              value={filters.search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </form>
