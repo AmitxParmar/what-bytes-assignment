@@ -2,7 +2,11 @@ import { notFound } from "next/navigation";
 import { products } from "@/lib/products";
 import ClientProductPage from "@/components/ClientProductPage";
 
-export const dynamic = "force-dynamic";
+export async function generateStaticParams() {
+  return products.map((product) => ({
+    id: String(product.id),
+  }));
+}
 
 export default async function ProductPage({
   params,
