@@ -13,7 +13,8 @@ const Sidebar = () => {
           <Label className="text-lg">Category</Label>
           <RadioGroup
             className="font-light"
-            value=""
+            value="all"
+            defaultValue="all"
             onValueChange={handleFilterChange}
           >
             <div className="flex mt-4 items-center space-x-2">
