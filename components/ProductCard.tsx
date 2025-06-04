@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useCart } from "@/hooks/useCart";
+
 import { Button } from "./ui/button";
+import { useCartContext } from "@/context/CartContext";
 
 type Props = {
   id: number;
@@ -23,7 +24,7 @@ const ProductCard = ({
   category,
   rating = 4.5,
 }: Props) => {
-  const { addToCart } = useCart();
+  const { addToCart } = useCartContext();
 
   return (
     <div className="group relative bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.15] hover:z-50">

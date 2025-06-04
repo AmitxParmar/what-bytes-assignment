@@ -5,11 +5,12 @@ import Link from "next/link";
 import { Search, ShoppingCart, User } from "lucide-react";
 import { cn } from "./../lib/utils";
 import { Input } from "./ui/input";
-import { useCart } from "@/hooks/useCart";
+
 import { useProductsContext } from "@/context/ProductContext";
+import { useCartContext } from "@/context/CartContext";
 
 const Header = () => {
-  const { totalItems } = useCart();
+  const { totalItems } = useCartContext();
   const { setSearch, filters } = useProductsContext();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
