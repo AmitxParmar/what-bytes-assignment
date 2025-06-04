@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import Link from "next/link";
 import { Search, ShoppingCart, User } from "lucide-react";

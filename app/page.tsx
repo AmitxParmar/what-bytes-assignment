@@ -3,7 +3,6 @@ import ProductCard from "@/components/ProductCard";
 import Sidebar from "@/components/Sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProductsContext } from "@/context/ProductContext";
-import { useProducts } from "@/hooks/useProducts";
 
 export default function Home() {
   const { products, isLoading, error } = useProductsContext();
