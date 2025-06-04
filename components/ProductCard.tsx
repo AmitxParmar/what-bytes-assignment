@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
-
 import { Button } from "./ui/button";
 import { useCartContext } from "@/context/CartContext";
 
@@ -27,7 +27,10 @@ const ProductCard = ({
   const { addToCart } = useCartContext();
 
   return (
-    <div className="group relative bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.15] hover:z-50">
+    <Link
+      href={`/product/${id}`}
+      className="group relative bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg hover:cursor-pointer transition-all duration-300 hover:scale-[1.15] hover:z-50"
+    >
       <div className="relative h-48 w-full">
         <Image src={image} alt={name} fill className="object-cover" />
       </div>
@@ -74,7 +77,7 @@ const ProductCard = ({
           </Button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

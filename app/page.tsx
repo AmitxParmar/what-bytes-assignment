@@ -43,10 +43,16 @@ export default function Home() {
               </>
             ) : error ? (
               <div className="text-center text-red-500">{error.message}</div>
-            ) : (
-              products?.map((product) => (
+            ) : products && products.length > 0 ? (
+              products.map((product) => (
                 <ProductCard key={product.id} {...product} />
               ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-600 text-xl capitalize text-semibold">
+                  No products found!!
+                </p>
+              </div>
             )}
           </div>
         </main>
