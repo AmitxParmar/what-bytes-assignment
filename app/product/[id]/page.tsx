@@ -1,4 +1,3 @@
-"use client";
 import { notFound } from "next/navigation";
 import { products } from "@/lib/products";
 import ClientProductPage from "@/components/ClientProductPage";
