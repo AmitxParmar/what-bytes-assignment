@@ -19,7 +19,7 @@ const Sidebar = () => {
     stepSize: 20,
     onChange: (instance: Ranger<HTMLDivElement>) => {
       setValues(instance.sortedValues);
-      console.log(instance.sortedValues);
+
       setMinPrice(String(instance.sortedValues[0]));
       setMaxPrice(String(instance.sortedValues[1]));
     },

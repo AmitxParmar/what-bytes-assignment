@@ -56,7 +56,7 @@ export function useProducts() {
       minPrice: "0",
     });
   };
-  console.log("data in useProducts", data);
+
   return {
     // Data
     products: data?.products || [],
