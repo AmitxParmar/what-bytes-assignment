@@ -1,20 +1,23 @@
-// context/CartContext.tsx
 "use client";
-import { createContext, useContext, ReactNode } from "react";
-import { useCart as createCartHook } from "@/hooks/useCart";
+import React, { createContext, useContext } from "react";
+import { useCart } from "@/hooks/useCart";
 
-const CartContext = createContext<ReturnType<typeof createCartHook> | null>(
-  null
+const CartContext = createContext<ReturnType<typeof useCart> | undefined>(
+  undefined
 );
 
-export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const cart = createCartHook();
-  return <CartContext.Provider value={cart}>{children}</CartContext.Provider>;
-};
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const cartHook = useCart();
 
-export const useCartContext = () => {
+  return (
+    <CartContext.Provider value={cartHook}>{children}</CartContext.Provider>
+  );
+}
+
+export function useCartContext() {
   const context = useContext(CartContext);
-  if (!context)
-    throw new Error("useCartContext must be used inside CartProvider");
+  if (context === undefined) {
+    throw new Error("useCartContext must be used within a CartProvider");
+  }
   return context;
-};
+}

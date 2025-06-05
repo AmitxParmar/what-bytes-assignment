@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import type { Product } from "@/lib/products";
+import useDebounce from "./useDebounce";
 
 interface ProductResponse {
   products: Product[];
@@ -23,13 +24,16 @@ export function useProducts() {
     minPrice: "0",
   });
 
+  // Debounce the search filter to prevent too many API calls
+  const debouncedSearch = useDebounce(filters.search, 500);
+
   // Fetch products with current filters
   const { data, isLoading, error, refetch } = useQuery<ProductResponse>({
-    queryKey: ["products", filters],
+    queryKey: ["products", { ...filters, search: debouncedSearch }],
     queryFn: async () => {
       const params = new URLSearchParams();
 
-      if (filters.search) params.append("search", filters.search);
+      if (debouncedSearch) params.append("search", debouncedSearch);
       if (filters.category) params.append("category", filters.category);
       if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
       if (filters.minPrice) params.append("minPrice", filters.minPrice);

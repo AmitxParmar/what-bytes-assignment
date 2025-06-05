@@ -37,7 +37,13 @@ export function useCart() {
     });
   };
 
+  // Remove item completely from cart
   const removeFromCart = (productId: Product["id"]) => {
+    setCart((prev) => prev.filter((item) => item.id !== productId));
+  };
+
+  // Decrease quantity by 1
+  const decreaseQuantity = (productId: Product["id"]) => {
     setCart((prev) =>
       prev
         .map((item) =>
@@ -49,15 +55,49 @@ export function useCart() {
     );
   };
 
+  // Increase quantity by 1
+  const increaseQuantity = (productId: Product["id"]) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  // Update quantity to specific value
+  const updateQuantity = (productId: Product["id"], newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === productId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
   const clearCart = () => {
     setCart([]);
   };
 
+  // Calculate totals
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   return {
     cart,
     addToCart,
-    removeFromCart,
+    removeFromCart, // Removes item completely
+    decreaseQuantity, // Reduces quantity by 1
+    increaseQuantity, // Increases quantity by 1
+    updateQuantity, // Sets specific quantity
     clearCart,
-    totalItems: cart.reduce((sum, item) => sum + item.quantity, 0),
+    totalItems,
+    totalPrice,
   };
 }

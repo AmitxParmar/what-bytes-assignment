@@ -10,22 +10,18 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
 import { useCartContext } from "@/context/CartContext";
 
 export default function CartPage() {
-  const { cart, removeFromCart, clearCart, totalItems, addToCart } =
-    useCartContext();
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const {
+    cart,
+    removeFromCart,
+    clearCart,
+    totalItems,
+    totalPrice,
+    updateQuantity,
+    increaseQuantity,
+    decreaseQuantity,
+  } = useCartContext();
 
-  const updateQuantity = (id: number, newQuantity: number) => {
-    // Since the hook doesn't provide direct quantity update,
-    // we'll remove and re-add the item with new quantity
-    const item = cart.find((item) => item.id === id);
-    if (item) {
-      removeFromCart(id);
-      // Re-add with new quantity
-      for (let i = 0; i < newQuantity; i++) {
-        addToCart(item);
-      }
-    }
-  };
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
@@ -35,6 +31,11 @@ export default function CartPage() {
       clearCart();
       setIsCheckingOut(false);
     }, 2000);
+  };
+
+  const handleQuantityChange = (id: number, value: string) => {
+    const newQuantity = parseInt(value) || 1;
+    updateQuantity(id, Math.max(1, newQuantity));
   };
 
   if (cart.length === 0) {
@@ -59,7 +60,10 @@ export default function CartPage() {
     );
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  // Fixed: Use totalPrice from hook instead of recalculating incorrectly
+  const subtotal = totalPrice;
+  const tax = subtotal * 0.08;
+  const total = subtotal + tax;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -78,9 +82,9 @@ export default function CartPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
-          {cart.map((item) => (
+          {cart.map((item, index) => (
             <div
-              key={item.id}
+              key={`${item.id}-${index}`} // Fixed: Better key to handle duplicate items
               className="bg-white rounded-lg shadow-sm border p-6 flex flex-col sm:flex-row gap-4"
             >
               {/* Product Image */}
@@ -106,7 +110,7 @@ export default function CartPage() {
                       Category: {item.category}
                     </p>
                     <p className="text-lg font-bold text-blue-600 mt-2">
-                      ${item.price}
+                      ${item.price.toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -117,7 +121,7 @@ export default function CartPage() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      onClick={() => decreaseQuantity(item.id)}
                       disabled={item.quantity <= 1}
                       className="h-8 w-8"
                     >
@@ -127,10 +131,7 @@ export default function CartPage() {
                       type="number"
                       value={item.quantity}
                       onChange={(e) =>
-                        updateQuantity(
-                          item.id,
-                          Math.max(1, parseInt(e.target.value) || 1)
-                        )
+                        handleQuantityChange(item.id, e.target.value)
                       }
                       className="w-16 text-center h-8"
                       min="1"
@@ -138,7 +139,7 @@ export default function CartPage() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => increaseQuantity(item.id)}
                       className="h-8 w-8"
                     >
                       <Plus className="h-3 w-3" />
@@ -176,7 +177,7 @@ export default function CartPage() {
                 <span className="text-gray-600">
                   Subtotal ({totalItems} items)
                 </span>
-                <span className="font-semibold">${total.toFixed(2)}</span>
+                <span className="font-semibold">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
@@ -184,14 +185,12 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax</span>
-                <span className="font-semibold">
-                  ${(total * 0.08).toFixed(2)}
-                </span>
+                <span className="font-semibold">${tax.toFixed(2)}</span>
               </div>
               <hr className="my-4" />
               <div className="flex justify-between text-lg font-bold">
                 <span>Total</span>
-                <span>${(total * 1.08).toFixed(2)}</span>
+                <span>${total.toFixed(2)}</span>
               </div>
             </div>
 
